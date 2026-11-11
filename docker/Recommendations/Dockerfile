@@ -1,13 +1,16 @@
-FROM python:3.12-slim-bookworm
+FROM python:3.12-slim-bookworm AS base
 
-WORKDIR /usr/src/ap
+WORKDIR /usr/src/app
 
 COPY requirements.txt ./
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir "setuptools<82"
 
 COPY . .
+
+RUN opentelemetry-bootstrap -a install
 
 ENV RECOMMENDATION_PORT=1010
 
