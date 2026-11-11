@@ -22,6 +22,7 @@ The project demonstrates practical Docker concepts, including:
 ## Project Structure
 
 docker/
+|
 |---> Golang.Dockerfile
 |---> python.Dockerfile
 |---> docker-compose.yml
