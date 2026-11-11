@@ -22,12 +22,11 @@ The project demonstrates practical Docker concepts, including:
 ## Project Structure
 
 docker/
-├── Golang.Dockerfile
-├── gradle.Dockerfile
-├── python.Dockerfile
-├── docker-compose.yml
-├── .env
-└── README.md
+|---> Golang.Dockerfile
+|---> python.Dockerfile
+|---> docker-compose.yml
+|---> .env
+|---> README.md
 
 ## Dockerfiles
 
