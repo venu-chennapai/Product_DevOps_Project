@@ -1,1 +1,71 @@
+services:
 
+  adservice:
+    image: ${AD_IMAGE}
+
+    ports:
+      - "${AD_PORT}:${AD_PORT}"
+
+    environment:
+      AD_PORT: ${AD_PORT}
+      OTEL_SERVICE_NAME: ${OTEL_AD_SERVICE_NAME}
+
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT}"
+          memory: ${MEMORY_LIMIT}
+        reservations:
+          cpus: "${CPU_RESERVATION}"
+          memory: ${MEMORY_RESERVATION}
+
+    restart: unless-stopped
+
+
+  product-catalog:
+    image: ${PRODUCT_IMAGE}
+
+    ports:
+      - "${PRODUCT_PORT}:${PRODUCT_PORT}"
+
+    environment:
+      PRODUCT_CATALOG_PORT: ${PRODUCT_PORT}
+      OTEL_SERVICE_NAME: ${OTEL_PRODUCT_SERVICE_NAME}
+
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT}"
+          memory: ${MEMORY_LIMIT}
+        reservations:
+          cpus: "${CPU_RESERVATION}"
+          memory: ${MEMORY_RESERVATION}
+
+    restart: unless-stopped
+
+
+  recommendationservice:
+    image: ${RECOMMENDATION_IMAGE}
+
+    ports:
+      - "${RECOMMENDATION_PORT}:${RECOMMENDATION_PORT}"
+
+    environment:
+      RECOMMENDATION_PORT: ${RECOMMENDATION_PORT}
+      OTEL_SERVICE_NAME: ${OTEL_RECOMMENDATION_SERVICE_NAME}
+      PRODUCT_CATALOG_ADDR: ${PRODUCT_CATALOG_ADDR}
+
+    depends_on:
+      product-catalog:
+        condition: service_started
+
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT}"
+          memory: ${MEMORY_LIMIT}
+        reservations:
+          cpus: "${CPU_RESERVATION}"
+          memory: ${MEMORY_RESERVATION}
+
+    restart: unless-stopped
